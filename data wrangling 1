@@ -1,0 +1,48 @@
+import pandas as pd
+import os
+
+# Read CSV file
+df = pd.read_csv(r"C:\Users\HP\Downloads\StudentsPerformance.csv")
+
+# Current working directory
+print(os.getcwd())
+
+# Display first 5 rows
+print(df.head())
+
+# Check null values
+print(df.isnull().sum())
+
+# Statistical summary
+print(df.describe())
+
+# Shape of dataset
+print(df.shape)
+
+# Convert object columns into category type
+for col in df.select_dtypes(include='object').columns:
+    df[col] = df[col].astype('category')
+
+# Display data types
+print(df.dtypes)
+
+# Normalize numeric columns
+numeric_cols = ['math score', 'reading score', 'writing score']
+
+df[numeric_cols] = (
+    (df[numeric_cols] - df[numeric_cols].min()) /
+    (df[numeric_cols].max() - df[numeric_cols].min())
+)
+
+# Display updated dataframe
+print(df.head())
+
+# One-hot encoding
+df_encoded = pd.get_dummies(df)
+
+# Display encoded dataframe
+print(df_encoded.head())
+
+# Shape after encoding
+print(df_encoded.shape)
+
